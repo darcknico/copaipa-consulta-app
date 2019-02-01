@@ -1,0 +1,151 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      Inicio
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="refrescar()">
+        <ion-icon name="refresh" ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content no-padding>
+    <ion-card class="welcome-card">
+      <ion-card-header>
+        <ion-card-subtitle></ion-card-subtitle>
+        <ion-card-title>Tabla de Aportes
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>A tener en cuenta: Las superficies y/o montos deben ingresarse SIN separador de miles.</p>
+        <ion-item *ngIf="tareas.length>0">
+          <ion-label position="stacked">Tipo de certificación</ion-label>
+          <ionic-selectable
+            [canSearch]="false"
+            [(ngModel)]="id_tarea"
+            [items]="tareas"
+            itemValueField="id_tarea"
+            closeButtonText="Cancelar"
+            (onChange)="seleccionar_tarea($event)">
+            <ng-template ionicSelectableItemTemplate let-port="item" text-wrap>
+              {{port.tarea}}
+            </ng-template>
+            <ng-template ionicSelectableValueTemplate let-port="value" text-wrap>
+              {{port.tarea}}
+            </ng-template>
+          </ionic-selectable>
+        </ion-item>
+        <ion-item >
+          <ion-label position="stacked">Subtarea</ion-label>
+          <ionic-selectable
+            [isEnabled]="subtareas_seleccionadas.length>0"
+            searchPlaceholder="Busque la subtarea"
+            #selectSubtarea
+            [(ngModel)]="id_subtarea"
+            [items]="subtareas_seleccionadas"
+            itemValueField="id_subtarea"
+            itemTextField="subtarea"
+            [canSearch]="true"
+            closeButtonText="Cancelar"
+            (onChange)="seleccionar_subtarea($event)">
+            <ng-template ionicSelectableItemTemplate let-port="item" text-wrap>
+              {{port.subtarea}}
+            </ng-template>
+            <ng-template ionicSelectableValueTemplate let-port="value" text-wrap>
+              {{port.subtarea}}
+            </ng-template>
+          </ionic-selectable>
+        </ion-item>
+        <ion-item>
+          <ion-label>Cantidad </ion-label>
+          <ion-input #cantidadInput 
+            disabled="{{!subtarea}}"
+            type="number" 
+            [(ngModel)]="cantidad" 
+            name="cantidad" 
+            (keyup.enter)="detalle_agregar()" text-end>
+          </ion-input>
+          <ion-label text-end *ngIf="subtarea">&nbsp;{{subtarea.unidad}}</ion-label>
+        </ion-item>
+        <ion-button 
+          color="secondary" 
+          expand="block"
+          size="small"
+          (click)="rango_importes()" 
+          [disabled]="!subtarea" >Consultar tabla de aportes</ion-button>
+        <ion-button 
+          color="danger" 
+          expand="block" 
+          (click)="detalle_agregar()" 
+          [disabled]="!subtarea" >Agregar subtarea y calcular</ion-button>
+      </ion-card-content>
+    </ion-card>
+    <ion-list *ngIf="detalles.length > 0" no-padding lines="full" #slidingList>
+      <ion-list-header color="light" padding>
+        <ion-label>
+            Detalle de Tareas seleccionadas
+        </ion-label>
+      </ion-list-header>
+      <ion-item-sliding *ngFor="let item of detalles" #slidingItem>
+        <ion-item >
+          <ion-label>
+            <h3 text-wrap>{{item.tarea}}</h3>
+            <h4 text-wrap>{{item.subtarea}}
+            </h4>
+            <p *ngIf="item.descuento>0" text-wrap>{{item.descuento_descripcion}}</p>
+            <ion-item >
+              <ion-label>
+                <ion-list lines="none" >
+                  <ion-item >
+                    <p slot="start">Cantidad:</p>
+                    <b slot="end" text-end>{{item.cantidad|number:'1.0-2':'es-AR'}}&nbsp;({{item.unidad}})</b>
+                  </ion-item>
+                  <ion-item *ngIf="item.descuento>0">
+                      <p slot="start">Descuento:
+                      </p>
+                      <b slot="end" text-end>
+                        <ion-badge color="success" *ngIf="item.descuento_aplicado">Aplicado</ion-badge> 
+                        {{item.descuento}}%
+                      </b>
+                  </ion-item>
+                  <ion-item >
+                      <p slot="start">Importe:</p>
+                      <b slot="end" text-end>${{item.importe|number:'1.2-2':'es-AR'}}</b>
+                  </ion-item>
+                </ion-list>
+              </ion-label>
+              <ion-icon name="arrow-dropleft" slot="end"></ion-icon>
+            </ion-item>
+          </ion-label>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option color="secondary" expandable (click)="detalle_descuento(slidingItem,item)" *ngIf="!item.descuento_aplicado">
+            <ion-icon name="trending-down"></ion-icon>
+            Aplicar Desc.
+          </ion-item-option>
+          <ion-item-option color="tertiary" expandable (click)="detalle_descuento_quitar(slidingItem,item)" *ngIf="item.descuento_aplicado && item.descuento>0">
+          <ion-icon name="trending-down"></ion-icon>
+            Quitar Desc.
+          </ion-item-option>
+          <ion-item-option color="danger" expandable (click)="detalle_quitar(slidingItem,item)">
+            <ion-icon name="trash"></ion-icon>
+            Quitar
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+</ion-content>
+<ion-footer [hidden]="detalles.length==0">
+  <ion-toolbar>
+    <ion-title slot="start">Total:<b>${{total|number:'1.2-2':'es-AR'}}</b></ion-title>
+    <div slot="end">
+      <ion-button color="danger" block (click)="limpiar()">
+        <ion-icon ios="ios-trash" md="md-trash"></ion-icon>
+      </ion-button>
+      <ion-button color="secondary" block (click)="imprimir()">
+        <ion-icon ios="ios-print" md="md-print"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

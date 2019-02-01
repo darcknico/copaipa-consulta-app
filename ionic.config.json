@@ -1,0 +1,8 @@
+{
+  "name": "copaipa-consulta",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular",
+  "id": "b6dbd22e"
+}
