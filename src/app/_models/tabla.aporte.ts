@@ -39,6 +39,9 @@ export interface DetalleTablaAporte{
     descuento:number;
     importe:number;
     descuento_aplicado:boolean;
+
+    cda_id:number;
+    cap_id:number;
 }
 
 export interface ImporteTablaAporte{

@@ -2,3 +2,19 @@
   max-height: 35vh;
   overflow: hidden;
 }
+
+.post-title {
+  font-family: Oswald,arial,Georgia, serif;
+  margin-bottom:10px;
+  font-size: 28px;
+}
+
+.entry{
+  padding-top: 0; 
+  padding-bottom: 1em;
+}
+
+ion-spinner {
+  display: block;
+  margin: auto;
+}

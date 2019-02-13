@@ -12,6 +12,10 @@ const routes: Routes = [
     loadChildren: './home/home.module#HomePageModule'
   },
   {
+    path: 'aportes',
+    loadChildren: './tabla-aporte/tabla-aporte.module#TablaAporteModule'
+  },
+  {
     path: 'list',
     loadChildren: './list/list.module#ListPageModule'
   }

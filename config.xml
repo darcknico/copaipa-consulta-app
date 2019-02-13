@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="copaipa_consulta.proyectosinformaticos.com.ar" version="0.0.5" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="copaipa_consulta.proyectosinformaticos.com.ar" version="0.0.8" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Copaipa Consulta App</name>
     <description>Consulta a la tabla de aportes.</description>
-    <author email="nicolasrl2005@gmail.com" href="http://proyectosinformaticos.com.ar/">Ionic Framework Team</author>
+    <author email="nicolasrl2005@gmail.com" href="http://proyectosinformaticos.com.ar/">Proyectos Informaticos XD</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -86,13 +86,17 @@
     <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
     <plugin name="cordova-plugin-ionic-webview" spec="^2.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
-    <plugin name="cordova-plugin-advanced-http" spec="^2.0.2" />
     <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
     <plugin name="cordova-plugin-file" spec="^6.0.1" />
     <plugin name="cordova-plugin-file-opener2" spec="^2.1.4">
         <variable name="ANDROID_SUPPORT_V4_VERSION" value="27.+" />
     </plugin>
     <plugin name="cordova-plugin-document-viewer" spec="^0.9.10" />
+    <plugin name="cordova-plugin-inappbrowser" spec="^3.0.0" />
+    <plugin name="cordova-sqlite-storage" spec="^2.6.0" />
+    <plugin name="cordova-plugin-x-toast" spec="^2.7.2" />
+    <plugin name="cordova-plugin-nativestorage" spec="^2.3.2" />
+    <plugin name="cordova-plugin-advanced-http" spec="^2.0.4" />
     <engine name="browser" spec="5.0.4" />
     <engine name="android" spec="7.0.0" />
 </widget>

@@ -22,6 +22,12 @@ import { IonicSelectableModule } from 'ionic-selectable';
 import es from '@angular/common/locales/es-AR';
 import { registerLocaleData } from '@angular/common';
 import { LoadingService } from './providers/loading.service';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { Toast } from '@ionic-native/toast/ngx';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { NovedadService } from './providers/novedad.service';
+import { AfiliadoService } from './providers/afiliado.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 registerLocaleData(es);
 
 @NgModule({
@@ -33,6 +39,8 @@ registerLocaleData(es);
     AppRoutingModule,
     HttpClientModule,
     IonicSelectableModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [
     StatusBar,
@@ -41,11 +49,17 @@ registerLocaleData(es);
     HttpAngularProvider,
     HttpNativeProvider,
     TablaAporteService,
+    NovedadService,
+    AfiliadoService,
+    
     LoadingService,
     FileTransfer,
     FileOpener,
     File,
     DocumentViewer,
+    InAppBrowser,
+    Toast,
+    NativeStorage,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
