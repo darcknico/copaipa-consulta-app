@@ -1,0 +1,92 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Constancias y Certificados
+    </ion-title>
+    <ion-buttons slot="end" *ngIf="afiliado">
+      <ion-button (click)="refrescar()">
+        <ion-icon name="refresh" ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content no-padding>
+  <ion-item lines="none"> 
+    <ion-label text-wrap>
+      <p>Consulta tus certificados y constancias disponibles para tu matricula.</p>
+    </ion-label>
+  </ion-item>
+  <form [formGroup]="formulario" (ngSubmit)="buscar()" padding *ngIf="!afiliado">
+    <ion-item>
+      <ion-label position="floating" >Matricula</ion-label>
+      <ion-input #matriculaInput
+        pattern="[0-9]*"
+        inputmode="numeric"
+        type="text" 
+        (keyup.enter)="buscar()"
+        formControlName="matricula">
+      </ion-input>
+    </ion-item>
+    <ion-item *ngIf="respuesta" lines="none">
+      <ion-label color="danger" text-wrap>
+        {{respuesta.error}}
+      </ion-label>
+    </ion-item>
+    <ion-button 
+      type="submit" 
+      color="secondary"
+      expand="block"
+      [disabled]="!formulario.valid">
+      Buscar
+    </ion-button>
+  </form>
+  <ion-item-group *ngIf="afiliado">
+    <ion-item-divider color="light">
+      <ion-label class="text-fill" text-center>Ultima consulta</ion-label>
+    </ion-item-divider>
+    <ion-item >
+      <ion-label>
+        <h3>Matricula: {{afiliado.id}}</h3>
+        <h2>{{afiliado.nombre}}</h2>
+        <p>Email: {{afiliado.email}}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        Certificado de Convenios
+      </ion-label>
+      <ion-button 
+        color="secondary"
+        fill="outline" 
+        slot="end" (click)="convenio()">
+        <ion-icon ios="ios-print" md="md-print"></ion-icon>
+      </ion-button>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        Certificado Común
+      </ion-label>
+      <ion-button 
+        color="secondary"
+        fill="outline" 
+        slot="end" (click)="comun()">
+        <ion-icon ios="ios-print" md="md-print"></ion-icon>
+      </ion-button>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        Certificado de Reciprocidad
+      </ion-label>
+      <ion-button 
+        color="secondary"
+        fill="outline" 
+        slot="end" (click)="reciprocidad()">
+        <ion-icon ios="ios-print" md="md-print"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-item-group>
+</ion-content>
+  

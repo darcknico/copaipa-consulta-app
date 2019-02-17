@@ -16,6 +16,10 @@ const routes: Routes = [
     loadChildren: './tabla-aporte/tabla-aporte.module#TablaAporteModule'
   },
   {
+    path: 'consultas',
+    loadChildren: './consultas/consultas.module#ConsultasModule'
+  },
+  {
     path: 'list',
     loadChildren: './list/list.module#ListPageModule'
   }

@@ -18,10 +18,18 @@ export class AfiliadoService {
       this.http = this.platform.is('cordova') ? this.nativeHttp : this.angularHttp;
   }
 
-  matriculado(matricula:string){
-    return this.http.post(this.base_path+'activo',{
+  buscar(matricula:string){
+    return this.http.post(this.base_path+'buscar',{
       matricula:matricula,
     });
+  }
+
+  certificado_convenio(matricula:string){
+    return this.http.post(this.base_path+matricula+'/certificado/convenio',{});
+  }
+
+  certificado_comun(matricula:string){
+    return this.http.post(this.base_path+matricula+'/certificado/comun',{});
   }
 
 }

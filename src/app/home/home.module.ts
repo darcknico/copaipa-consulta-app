@@ -3,9 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
-
 import { HomePage } from './home.page';
-import { MatriculaModalComponent } from './matricula-modal/matricula-modal.component';
 
 @NgModule({
   imports: [
@@ -20,9 +18,9 @@ import { MatriculaModalComponent } from './matricula-modal/matricula-modal.compo
       }
     ])
   ],
-  declarations: [HomePage, MatriculaModalComponent],
+  declarations: [HomePage, ],
   entryComponents: [
-    MatriculaModalComponent,
+    
   ]
 })
 export class HomePageModule {}

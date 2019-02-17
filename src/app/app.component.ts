@@ -19,6 +19,11 @@ export class AppComponent {
       title: 'Aportes',
       url: '/aportes',
       icon: 'cash'
+    },
+    {
+      title: 'Matriculado',
+      url: '/consultas',
+      icon: 'document'
     }
   ];
 

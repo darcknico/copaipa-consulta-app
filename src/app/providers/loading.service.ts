@@ -13,7 +13,10 @@ export class LoadingService {
   async present() {
     this.isLoading = true;
     return await this.loadingController.create({
-      duration: 10000,
+      spinner:'lines',
+      translucent: true,
+      duration: 15000,
+      
     }).then(a => {
       a.present().then(() => {
         console.log('presented');

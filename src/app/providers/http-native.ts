@@ -16,7 +16,8 @@ export class HttpNativeProvider {
     }
 
     public post(url:string, params: any, options: any = {}) {
-        options['Content-Type'] = 'application/json; charset=UTF-8';
+        this.http.setDataSerializer('json');
+        options['Content-Type'] = 'application/json';
         let responseData = this.http.post(url, params, options)
             .then(resp => {
                 if(options.responseType == 'text' || options.responseType == 'blob'){

@@ -4,7 +4,6 @@ import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser/
 import { NovedadService } from '../providers/novedad.service';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import * as moment from 'moment';
-import { MatriculaModalComponent } from './matricula-modal/matricula-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -78,11 +77,7 @@ export class HomePage implements OnInit {
   }
 
   ver_matriculas(){
-      this.modalCtrl.create({
-        component: MatriculaModalComponent,
-      }).then((modal) => {
-          modal.present();
-      });
+    this.navCtrl.navigateForward('/consultas');
   }
 
   ver_convenios(){

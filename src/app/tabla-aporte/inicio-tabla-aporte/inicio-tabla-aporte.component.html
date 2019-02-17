@@ -1,5 +1,8 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar color="light">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
     <ion-title>
       Aportes
     </ion-title>
@@ -78,30 +81,33 @@
           color="danger" 
           expand="block" 
           (click)="detalle_agregar()" 
-          [disabled]="!subtarea" >Agregar subtarea y calcular</ion-button>
+          [disabled]="!subtarea" >
+          Agregar subtarea
+          <ion-icon name="add-circle" slot="end"></ion-icon>
+        </ion-button>
       </ion-card-content>
     </ion-card>
-    <ion-list *ngIf="detalles.length > 0" no-padding lines="full" #slidingList>
+    <ion-list *ngIf="detalles.length > 0" no-padding #slidingList>
       <ion-list-header color="light" padding>
         <ion-label>
             Detalle de Tareas seleccionadas
         </ion-label>
       </ion-list-header>
       <ion-item-sliding *ngFor="let item of detalles" #slidingItem>
-        <ion-item >
+        <ion-item lines="full">
           <ion-label>
             <h3 text-wrap>{{item.tarea}}</h3>
             <h4 text-wrap>{{item.subtarea}}
             </h4>
             <p *ngIf="item.descuento>0" text-wrap>{{item.descuento_descripcion}}</p>
-            <ion-item >
-              <ion-label>
-                <ion-list lines="none" >
-                  <ion-item >
+            <ion-item lines="none">
+              <ion-label no-margin no-padding>
+                <ion-list >
+                  <ion-item lines="none">
                     <p slot="start">Cantidad:</p>
                     <b slot="end" text-end>{{item.cantidad|number:'1.0-2':'es-AR'}}&nbsp;({{item.unidad}})</b>
                   </ion-item>
-                  <ion-item *ngIf="item.descuento>0">
+                  <ion-item *ngIf="item.descuento>0" lines="none">
                       <p slot="start">Descuento:
                       </p>
                       <b slot="end" text-end>
@@ -109,7 +115,7 @@
                         {{item.descuento}}%
                       </b>
                   </ion-item>
-                  <ion-item >
+                  <ion-item lines="none">
                       <p slot="start">Importe:</p>
                       <b slot="end" text-end>${{item.importe|number:'1.2-2':'es-AR'}}</b>
                   </ion-item>
