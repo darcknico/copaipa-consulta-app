@@ -322,7 +322,7 @@ export class InicioTablaAporteComponent implements OnInit {
     });
   }
 
-
+  /*
   ionViewDidEnter(){
     this.subscription = this.platform.backButton.subscribe(()=>{
       this.navCtrl.navigateForward('/home');
@@ -332,4 +332,5 @@ export class InicioTablaAporteComponent implements OnInit {
   ionViewWillLeave(){
     this.subscription.unsubscribe();
   }
+  */
 }

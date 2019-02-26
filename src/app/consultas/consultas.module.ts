@@ -5,6 +5,7 @@ import { ConsultasRoutingModule } from './consultas-routing.module';
 import { MatriculaComponent } from './matricula/matricula.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { IonicSelectableModule } from 'ionic-selectable';
 
 @NgModule({
   declarations: [MatriculaComponent],
@@ -13,7 +14,8 @@ import { IonicModule } from '@ionic/angular';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    ConsultasRoutingModule
+    ConsultasRoutingModule,
+    IonicSelectableModule
   ]
 })
 export class ConsultasModule { }
