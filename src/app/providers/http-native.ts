@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import { HTTP } from '@ionic-native/http/ngx';
 import { from } from 'rxjs';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class HttpNativeProvider {
