@@ -18,3 +18,7 @@ ion-spinner {
   display: block;
   margin: auto;
 }
+
+ion-col ion-item{
+  --border-radius: 0.4rem !important;
+}

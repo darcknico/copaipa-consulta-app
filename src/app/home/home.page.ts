@@ -12,6 +12,7 @@ import * as moment from 'moment';
 })
 export class HomePage implements OnInit {
 
+  consultando = false;
   subscription:any; 
 
   options: InAppBrowserOptions = {
@@ -105,7 +106,11 @@ export class HomePage implements OnInit {
   }
 
   actualizar(event?){
+    if(!event){
+      this.consultando = true;
+    }
     this.novedadService.getAll().subscribe(response=>{
+      this.consultando = false;
       this.novedades = response;
       if(event){
         event.target.complete();
@@ -117,6 +122,8 @@ export class HomePage implements OnInit {
         () => console.log('Novedades actualizada'),
         error => console.error('Novedades error', error)
       );
+    },()=>{
+      this.consultando = false;
     });
   }
 

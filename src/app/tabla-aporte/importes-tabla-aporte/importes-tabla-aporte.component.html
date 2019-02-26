@@ -29,7 +29,7 @@
     </ion-item>
     <ion-item-divider color="light" >
       <ion-label class="text-fill">
-        <div>Categorías <p slot="end" text-end>Mensura Urbana</p></div>
+        <div>Categorías <p slot="end" text-end>Detalle</p></div>
       </ion-label>
     </ion-item-divider>
     <ion-item *ngFor="let item of importes">
@@ -39,4 +39,14 @@
       </ion-label>
     </ion-item>
   </ion-item-group>
+  <ion-grid *ngIf="!importes">
+    <ion-row align-items-center>
+      <ion-col align-self-center>
+        <ion-spinner 
+          name="lines" color="primary"
+          style=" position: initial;"
+          ></ion-spinner>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

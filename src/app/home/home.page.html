@@ -72,12 +72,15 @@
     </ion-row>
   </ion-grid>
   <ion-refresher slot="fixed" (ionRefresh)="actualizar($event)">
-    <ion-refresher-content></ion-refresher-content>
+    <ion-refresher-content
+      refreshingSpinner="lines"
+    ></ion-refresher-content>
   </ion-refresher>
   <ion-list lines="full" #slidingList>
     <ion-list-header color="light" padding>
       <ion-label>
-          Novedades
+          <h4>Novedades</h4>
+          <ion-spinner slot="end" color="primary" *ngIf="consultando && novedades"></ion-spinner>
       </ion-label>
     </ion-list-header>
     <ion-item *ngFor="let item of novedades">
@@ -94,11 +97,11 @@
       Mas novedades...
     </ion-label>
   </ion-item>
-<ion-grid>
-  <ion-row align-items-center *ngIf='!novedades'>
-    <ion-col align-self-center>
-      <ion-spinner  color="primary"></ion-spinner>
-    </ion-col>
-  </ion-row>
-</ion-grid>
+  <ion-grid>
+    <ion-row align-items-center *ngIf='!novedades'>
+      <ion-col align-self-center>
+        <ion-spinner name="lines" color="primary"></ion-spinner>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

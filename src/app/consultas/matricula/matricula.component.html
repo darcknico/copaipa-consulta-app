@@ -76,11 +76,33 @@
         <ion-icon ios="ios-print" md="md-print"></ion-icon>
       </ion-button>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="afiliado.reciprocidad" lines="none">
+      <ion-label position="stacked">Consejos y Colegios</ion-label>
+      <ionic-selectable *ngIf="colegios"
+        [(ngModel)]="colegio"
+        [items]="colegios"
+        itemValueField="colegio_consejo"
+        placeholder="Elije un consejo o colegio"
+        closeButtonText="Cancelar">
+        <ng-template ionicSelectableItemTemplate let-port="item" text-wrap>
+          {{port.colegio_consejo}}
+        </ng-template>
+        <ng-template ionicSelectableValueTemplate let-port="value" text-wrap>
+          {{port.colegio_consejo}}
+        </ng-template>
+      </ionic-selectable>
+      <ion-row align-items-center *ngIf='!colegios'>
+        <ion-col align-self-center>
+          <ion-spinner name="lines" color="primary"></ion-spinner>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+    <ion-item *ngIf="afiliado.reciprocidad">
       <ion-label>
         Certificado de Reciprocidad
       </ion-label>
       <ion-button 
+        [disabled]="!colegio"
         color="secondary"
         fill="outline" 
         slot="end" (click)="reciprocidad()">
