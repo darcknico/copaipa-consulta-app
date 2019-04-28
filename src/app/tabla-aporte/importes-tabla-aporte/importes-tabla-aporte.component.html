@@ -32,7 +32,7 @@
         <div>Categorías <p slot="end" text-end>Detalle</p></div>
       </ion-label>
     </ion-item-divider>
-    <ion-item *ngFor="let item of importes">
+    <ion-item *ngFor="let item of importes" class="animated fadeIn">
       <ion-label>
         <h3 >{{item.rango}}</h3>
         <p slot="end" text-end text-wrap>{{item.detalle_importe}}</p>

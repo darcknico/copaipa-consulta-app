@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, Platform, ModalController } from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
 import { NovedadService } from '../providers/novedad.service';
-import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import * as moment from 'moment';
+import { DepositoService } from '../providers/deposito.service';
 
 @Component({
   selector: 'app-home',
@@ -38,22 +38,21 @@ export class HomePage implements OnInit {
 
   constructor(
     private novedadService:NovedadService,
-    private modalCtrl: ModalController,
     private platform: Platform,
     private iab: InAppBrowser,
     private navCtrl:NavController,
-    private nativeStorage: NativeStorage,
+    private deposito: DepositoService,
   ){
 
   }
   
   ngOnInit(): void {
-    this.platform.ready().then(() => {
-      this.nativeStorage.getItem('novedades')
+    this.platform.ready().then(res => {
+      this.deposito.getItem('novedades')
       .then(
         data => {
           this.novedades = data;
-          this.nativeStorage.getItem('actualizado').then(data=>{
+          this.deposito.getItem('actualizado').then(data=>{
             let ahora = moment();
             let fecha = moment(data);
             if(!fecha.isSame(ahora,'day')){
@@ -82,8 +81,8 @@ export class HomePage implements OnInit {
   }
 
   ver_convenios(){
-    const browser = this.iab.create('http://www.copaipa.org.ar/category/beneficios/','_self',this.options);
-
+    this.navCtrl.navigateForward('/convenios');
+    //const browser = this.iab.create('http://www.copaipa.org.ar/category/beneficios/','_self',this.options);
   }
 
   ver_cursos(){
@@ -93,6 +92,10 @@ export class HomePage implements OnInit {
 
   ver_novedades(){
     const browser = this.iab.create('http://www.copaipa.org.ar/category/noticias/novedades/page/2/','_self',this.options);
+  }
+
+  ver_oferta(){
+    const browser = this.iab.create('http://www.copaipa.org.ar/ofertas-laborales/','_self',this.options);
   }
 
   ionViewDidEnter(){
@@ -116,8 +119,8 @@ export class HomePage implements OnInit {
         event.target.complete();
       }
       let fecha = moment();
-      this.nativeStorage.setItem('actualizado',fecha.format('YYYY-MM-DD HH:mm')).then(() => console.log('Fecha actualizada'));
-      this.nativeStorage.setItem('novedades', response)
+      this.deposito.setItem('actualizado',fecha.format('YYYY-MM-DD HH:mm')).then(() => console.log('Fecha actualizada'));
+      this.deposito.setItem('novedades', response)
       .then(
         () => console.log('Novedades actualizada'),
         error => console.error('Novedades error', error)

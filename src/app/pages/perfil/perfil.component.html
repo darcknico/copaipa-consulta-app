@@ -1,0 +1,109 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Ajustes
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content no-padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="4">
+        <ion-label >
+          <b>Usuario</b>
+        </ion-label>
+      </ion-col>
+      <ion-col size="8" *ngIf="loading">
+        <ion-spinner 
+          name="lines" color="primary"
+          ></ion-spinner>
+      </ion-col>
+    </ion-row>
+    <ng-container *ngIf="usuario | async as user">
+      
+      <ion-row >
+        <ion-col size="4">
+          <ion-label>
+            Email:
+          </ion-label>
+        </ion-col>
+        <ion-col size="8">
+          <ion-label>
+            <b>{{ user.email }}</b>
+          </ion-label>
+        </ion-col>
+      </ion-row>
+      <ng-container *ngIf="user.afiliado">
+        <ion-row>
+          <ion-col>
+            <ion-label>
+              <b>Afiliado</b>
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row >
+          <ion-col size="4">
+            <ion-label>
+              Matricula:
+            </ion-label>
+          </ion-col>
+          <ion-col size="8">
+            <ion-label>
+              <b>{{ user.afiliado.id }}</b>
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row >
+          <ion-col size="4">
+            <ion-label>
+              Nombre:
+            </ion-label>
+          </ion-col>
+          <ion-col size="8">
+            <ion-label>
+              <b>{{ user.afiliado.nombre }}</b>
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row >
+          <ion-col size="4">
+            <ion-label>
+              Profesion:
+            </ion-label>
+          </ion-col>
+          <ion-col size="8">
+            <ion-label>
+              <b>{{ user.afiliado.profesion }}</b>
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row >
+          <ion-col size="4">
+            <ion-label>
+                {{ user.afiliado.tipo_documento }}:
+            </ion-label>
+          </ion-col>
+          <ion-col size="8">
+            <ion-label>
+              <b>{{ user.afiliado.Nro_Doc }}</b>
+            </ion-label>
+          </ion-col>
+        </ion-row>
+      </ng-container>
+    </ng-container>
+    <ion-row>
+      <ion-col size="12" size-sm>
+          <ion-button 
+          type="submit" 
+          color="secondary"
+          expand="block"
+          (click)="cambiar()">
+          Cambiar contraseña
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

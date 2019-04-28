@@ -1,0 +1,63 @@
+<ion-content padding has-header class="animated fadeIn login auth-page">
+  <!-- Logo -->
+  <div text-center class="animated fadeIn slow">
+    <div class="logo">
+      <ion-img width="80" height="80" src="/assets/imgs/logo.png" alt="COPAIPA"></ion-img>
+    </div>
+    <ion-text color="primary">
+      <br>
+      <strong>Autenticación</strong>
+    </ion-text>
+  </div>
+
+  <!-- Login form -->
+  <form [formGroup]="loginForm" >
+    <ion-item>
+      <ion-label position="floating">
+        <ion-icon name="mail" slot="start" color="primary"></ion-icon>
+        Email
+      </ion-label>
+      <ion-input type="email" formControlName="email" name="email" ></ion-input>
+    </ion-item>
+    <ion-label *ngIf="email.touched" class="animated bounceInDown">
+      <ion-text color="danger" *ngIf="email.hasError('required')" >
+        {{ 'error_email_required' | translate }}
+      </ion-text>
+      <ion-text color="danger" *ngIf="email.hasError('email')">
+        {{ 'error_email_valid' | translate }}
+      </ion-text>
+    </ion-label>
+    <br>
+    <ion-item>
+      <ion-label position="floating">
+        <ion-icon name="lock" slot="start" color="primary"></ion-icon>
+        Contraseña
+      </ion-label>
+      <ion-input [type]="passwordType" formControlName="password" name="password" (keyup.enter)="onLogin()"></ion-input>
+      <ion-icon slot="end" [name]="passwordIcon" class="passwordIcon" (click)='hideShowPassword()'></ion-icon>
+    </ion-item>
+    <ion-label *ngIf="password.touched" class="animated bounceInDown">
+      <ion-text color="danger" *ngIf="password.hasError('required')">
+        {{ 'error_password_required' | translate }}
+      </ion-text>
+      <ion-text color="danger" *ngIf="password.hasError('minlength')">
+        {{ 'error_password_minlength' | translate:{length: '6'} }}
+      </ion-text>
+    </ion-label>
+    <br>
+    <div padding>
+      <ion-button expand="block" color="secondary" (click)="onLogin()" [disabled]="!loginForm.valid" >
+        <ion-icon slot="start" name="log-in"></ion-icon>
+        INGRESAR
+      </ion-button>
+      <ion-button expand="block" color="danger" (click)="register()">
+        <ion-icon slot="start" name="filing"></ion-icon>
+        REGISTRARSE
+      </ion-button>
+      <ion-button expand="block" color="light" type="button" (click)="recovery()">Recuperar contraseña</ion-button>
+    </div>
+    <ion-item lines="none" text-center>
+      
+    </ion-item>
+  </form>
+</ion-content>

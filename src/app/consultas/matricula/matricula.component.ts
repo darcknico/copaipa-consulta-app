@@ -5,10 +5,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AfiliadoService } from 'src/app/providers/afiliado.service';
 import { LoadingService } from 'src/app/providers/loading.service';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
-import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { Toast } from '@ionic-native/toast/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { Auxiliar } from 'src/app/_helpers/auxiliar';
+import { DepositoService } from 'src/app/providers/deposito.service';
 
 @Component({
   selector: 'app-matricula',
@@ -30,7 +30,7 @@ export class MatriculaComponent implements OnInit {
     public loadingService: LoadingService,
     private fileOpener: FileOpener,
     private file: File,
-    private nativeStorage: NativeStorage,
+    private deposito: DepositoService,
     private toast:Toast,
     ) { 
     this.formulario = this.formBuilder.group({
@@ -44,12 +44,14 @@ export class MatriculaComponent implements OnInit {
     }
     
 
-    this.nativeStorage.getItem('afiliado').then(data=>{
-      this.afiliado = data;
-      if(this.afiliado.reciprocidad){
-        this.afiliadoService.colegios().subscribe(response=>{
-          this.colegios = response;
-        });
+    this.deposito.getItem('afiliado').then(data=>{
+      if(data){
+        this.afiliado = data;
+        if(this.afiliado.reciprocidad){
+          this.afiliadoService.colegios().subscribe(response=>{
+            this.colegios = response;
+          });
+        }
       }
     },error => console.error('Afiliado error', error));
   }
@@ -74,7 +76,7 @@ export class MatriculaComponent implements OnInit {
           this.colegios = response;
         });
       }
-      this.nativeStorage.setItem('afiliado',response)
+      this.deposito.setItem('afiliado',response)
       .then(
         () => console.log('Afiliado actualizado'),
         error => console.error('Afiliado error', error)

@@ -20,7 +20,6 @@ import { IonicSelectableModule } from 'ionic-selectable';
   ],
   imports: [
     CommonModule,
-    CommonModule,
     FormsModule,
     IonicModule,
     IonicSelectableModule,

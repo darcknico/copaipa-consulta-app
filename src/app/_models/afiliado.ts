@@ -30,3 +30,10 @@ export interface Colegio{
     id:number;
     colegio_consejo:string;
 }
+
+export interface Usuario{
+    email:string;
+    fecha_alta:string;
+    id_matricula:string;
+    afiliado:Afiliado;
+}

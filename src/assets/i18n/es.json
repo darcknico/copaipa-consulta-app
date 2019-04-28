@@ -1,0 +1,9 @@
+
+{
+    "validator_required": "El campo es requerido",
+    "error_email_required": "Email es requerido",
+    "error_email_valid": "Debe ser un correo valido",
+    "error_password_required": "Contraseña es requerida",
+    "error_password_minlength": "Al menos {{ length }} caracteres",
+    "error_password_pattern": "Debe poseer al menos 1 letra y 1 numero"
+}

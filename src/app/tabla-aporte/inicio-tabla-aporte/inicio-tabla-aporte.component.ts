@@ -1,13 +1,12 @@
 import { Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { IonicSelectableComponent } from 'ionic-selectable';
-import { IonList, IonItemSliding, ToastController, ModalController, Platform, IonInput, NavController } from '@ionic/angular';
+import { IonList, IonItemSliding, ToastController, ModalController, Platform, IonInput, AlertController } from '@ionic/angular';
 import { Tarea, Subtarea, DetalleTablaAporte } from '../../_models/tabla.aporte';
 import { TablaAporteService } from '../../providers/tabla-aporte.service';
 import { LoadingService } from '../../providers/loading.service';
 import { File } from '@ionic-native/file/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { ImportesTablaAporteComponent } from '../importes-tabla-aporte/importes-tabla-aporte.component';
-import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { Auxiliar } from '../../_helpers/auxiliar';
 
 @Component({
@@ -20,7 +19,6 @@ export class InicioTablaAporteComponent implements OnInit {
   @ViewChild('selectSubtarea') selectSubtarea: IonicSelectableComponent;
   @ViewChild('cantidadInput') cantidadInput: IonInput;
   @ViewChild('slidingList') slidingList: IonList;
-  @ViewChildren(IonItemSliding) private slidingItems: QueryList<IonItemSliding>;
 
   id_tarea:number;
   id_subtarea:number;
@@ -35,15 +33,14 @@ export class InicioTablaAporteComponent implements OnInit {
   subscription:any; 
 
   constructor(
+    public alertController: AlertController,
     private tablaAporteService:TablaAporteService,
     private toastCtrl: ToastController,
     private modalCtrl: ModalController,
-    public loadingService: LoadingService,
+    private loadingService: LoadingService,
     private platform: Platform,
     private fileOpener: FileOpener,
     private file: File,
-    private navCtrl:NavController,
-    private nativeStorage: NativeStorage,
   ){
   }
 
@@ -64,6 +61,7 @@ export class InicioTablaAporteComponent implements OnInit {
             }
 
             let subtarea=<Subtarea>{};
+            subtarea.id = String(item.id_tarea) + String(item.id_subtarea) + String(item.id_subcategoria);
             subtarea.id_tarea = item.id_tarea;
             subtarea.id_subtarea = item.id_subtarea;
             subtarea.id_subcategoria = item.id_subcategoria;
@@ -77,7 +75,7 @@ export class InicioTablaAporteComponent implements OnInit {
             }
 
             if(this.subtareas.filter(s=>{
-              return s.id_subtarea == subtarea.id_subtarea && s.id_tarea == subtarea.id_tarea
+              return s.id_subtarea == subtarea.id_subtarea && s.id_tarea == subtarea.id_tarea && s.id_subcategoria == subtarea.id_subcategoria
             }).length == 0){
               this.subtareas.push(subtarea);
             }
@@ -148,7 +146,7 @@ export class InicioTablaAporteComponent implements OnInit {
     value: Subtarea 
   }){
     this.subtarea = this.subtareas_seleccionadas.find(item=>{
-      return item.id_subtarea == event.value.id_subtarea;
+      return item.id_tarea == event.value.id_tarea && item.id_subtarea == event.value.id_subtarea && item.id_subcategoria == event.value.id_subcategoria;
     });
     this.cantidad = null;
     this.cantidadInput.setFocus();
@@ -181,7 +179,9 @@ export class InicioTablaAporteComponent implements OnInit {
         let importe_desde = response.detalle.tacrtimportes_desde;
         let importe_fijo = response.detalle.tacrtimportes_importeFijo;
         let importe_variable = response.detalle.tacrtimportes_importevariable;
-
+        if(importe_desde>0){
+          importe_desde = importe_desde - 1;
+        }
         let random = Math.round(Math.random() * (999999 - 100000)) + 100000;
         let detalle = <DetalleTablaAporte>{};
         detalle.id = random;
@@ -283,8 +283,27 @@ export class InicioTablaAporteComponent implements OnInit {
   }
   
   async limpiar(){
-    this.detalles = [];
     await this.slidingList.closeSlidingItems();
+    const alert = await this.alertController.create({
+      header: 'Limpiar',
+      message: 'quitar todos los importes seleccionados',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            
+          }
+        }, {
+          text: 'Continuar',
+          handler: () => {
+            this.detalles = [];
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
   
   calcular_total(){

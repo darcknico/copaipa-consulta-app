@@ -1,0 +1,143 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Convenios
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="limpiar()">
+        <ion-icon name="refresh" ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content no-padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-sm>
+        <ion-item *ngIf="provincias.length>0">
+          <ion-label position="stacked">Provincias</ion-label>
+          <ionic-selectable
+            [isEnabled]="!consultando"
+            [canSearch]="false"
+            [(ngModel)]="provincia"
+            [items]="provincias"
+            itemValueField="id"
+            closeButtonText="Cancelar"
+            (onChange)="seleccionar_provincia($event)">
+            <ng-template ionicSelectableItemTemplate let-port="item" text-wrap>
+              {{port.nombre}}
+            </ng-template>
+            <ng-template ionicSelectableValueTemplate let-port="value" text-wrap>
+              {{port.nombre}}
+            </ng-template>
+          </ionic-selectable>
+        </ion-item>
+      </ion-col>
+      <ion-col size="12" size-sm >
+        <ion-item >
+          <ion-label position="stacked">Localidades</ion-label>
+          <ionic-selectable
+            [isEnabled]="!consultando"
+            searchPlaceholder="Busque la localidad"
+            #selectSubtarea
+            [(ngModel)]="localidad"
+            [items]="localidades"
+            itemValueField="id"
+            itemTextField="nombre"
+            [canSearch]="true"
+            closeButtonText="Cancelar"
+            (onChange)="seleccionar_localidad($event)">
+            <ng-template ionicSelectableItemTemplate let-port="item" text-wrap>
+              {{port.nombre}}
+            </ng-template>
+            <ng-template ionicSelectableValueTemplate let-port="value" text-wrap>
+              {{port.nombre}}
+            </ng-template>
+          </ionic-selectable>
+        </ion-item>
+      </ion-col>
+      <ion-col size="12" size-sm >
+        <ion-item >
+          <ion-label position="stacked">Tipo</ion-label>
+          <ionic-selectable
+            [isEnabled]="!consultando"
+            searchPlaceholder="Busque el tipo"
+            #selectSubtarea
+            [(ngModel)]="tipo"
+            [items]="tipos"
+            itemValueField="id"
+            itemTextField="nombre"
+            [canSearch]="true"
+            closeButtonText="Cancelar"
+            (onChange)="seleccionar_tipo($event)">
+            <ng-template ionicSelectableItemTemplate let-port="item" text-wrap>
+              <ion-icon slot="end" [name]="icono(port.id)" color="primary" *ngIf="port.id != '0'"></ion-icon>
+              {{port.nombre}}
+            </ng-template>
+            <ng-template ionicSelectableValueTemplate let-port="value" text-wrap>
+              <ion-icon slot="end" [name]="icono(port.id)" color="primary" *ngIf="port.id != '0'"></ion-icon>
+              {{port.nombre}}
+            </ng-template>
+          </ionic-selectable>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-list lines="full">
+    <ion-list-header color="light" padding>
+      <ion-label>
+          <h4>Listado:<p *ngIf="total==0 && !consultando">No hay convenios asociados</p></h4>
+      </ion-label>
+    </ion-list-header>
+    <ion-item *ngFor="let item of convenios" class="animated fadeIn">
+      <div class="rectangle">
+
+      </div>
+      <ion-label >
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <div class="ion-text-end" *ngIf="item.id_tipo_convenio">
+                <ion-icon slot="end" [name]="icono(item.id_tipo_convenio)" color="primary"></ion-icon>
+              </div>
+              <div class="ion-text-end" *ngIf="!item.id_tipo_convenio">
+                <ion-icon slot="end" name="close" color="primary"></ion-icon>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col class="ion-align-self-center">
+              <h2 text-wrap class="post-title">
+                <b>{{item.institucion_nombre}}</b>
+              </h2>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <div class="ion-text-nowrap">
+          <p text-wrap class="ion-float-right">{{item.beneficio}}</p>
+        </div>
+      </ion-label>
+      <ion-icon slot="end" name="globe" *ngIf="item.enlace_web.length > 0" (click)="web(item.enlace_web)"></ion-icon>
+    </ion-item>
+    
+  </ion-list>
+  <ion-grid *ngIf="convenios.length == 0 && consultando">
+    <ion-row align-items-center>
+      <ion-col align-self-center>
+        <ion-spinner 
+          name="lines" color="primary"
+          style=" position: initial;"
+          ></ion-spinner>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)" *ngIf="total>0">
+    <ion-infinite-scroll-content
+      loadingSpinner="lines"
+      loadingText="Consultando...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

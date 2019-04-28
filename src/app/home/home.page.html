@@ -70,6 +70,22 @@
         </ion-item>
       </ion-col>
     </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item button="true"
+        color="secondary"
+        (click)="ver_oferta()">
+        <ion-label>
+          <b>
+            BOLSA DE TRABAJO
+          </b>
+          <div slot="end" text-end>
+            <ion-icon name="code-working"></ion-icon>
+          </div>
+        </ion-label>
+      </ion-item>
+      </ion-col>
+    </ion-row>
   </ion-grid>
   <ion-refresher slot="fixed" (ionRefresh)="actualizar($event)">
     <ion-refresher-content
@@ -79,19 +95,28 @@
   <ion-list lines="full" #slidingList>
     <ion-list-header color="light" padding>
       <ion-label>
-          <h4>Novedades</h4>
-          <ion-spinner slot="end" color="primary" *ngIf="consultando && novedades"></ion-spinner>
+        <h4>Novedades</h4>
       </ion-label>
     </ion-list-header>
-    <ion-item *ngFor="let item of novedades">
+    <ion-item *ngFor="let item of novedades" class="animated fadeIn">
       <ion-label (click)="link_entry(item.link)">
         <h2 text-wrap class="post-title">{{item.post_title}}</h2>
-        <ion-img [src]="'data:image/jpeg;base64,'+item.image"></ion-img>
+        <ion-img [src]="'data:image/jpeg;base64,'+item.image" class="animated fadeIn"></ion-img>
         <p text-wrap class="entry">{{item.entry}}</p>
       </ion-label>
     </ion-item>
     
   </ion-list>
+  <ion-grid *ngIf="consultando && novedades">
+    <ion-row align-items-center>
+      <ion-col align-self-center>
+        <ion-spinner 
+          name="lines" color="primary"
+          style=" position: initial;"
+          ></ion-spinner>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
   <ion-item button="true" lines="none" *ngIf="novedades" padding (click)="ver_novedades()">
     <ion-label>
       Mas novedades...

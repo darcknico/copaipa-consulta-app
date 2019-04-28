@@ -16,6 +16,7 @@ export interface Tarea{
 }
 
 export interface Subtarea{
+    id:string;
     id_tarea:number;
     id_subtarea:number;
     id_subcategoria:number;

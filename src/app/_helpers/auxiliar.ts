@@ -16,5 +16,29 @@ export class Auxiliar {
              byteArrays.push(byteArray);
         }
        return new Blob(byteArrays, {type: contentType});
-      }
+    }
+
+    public static toParams(modelo){
+        let obj = {};
+        for(let key in modelo){
+            obj[key] = String(modelo[key]);
+        }
+        return obj;
+    }
+
+    public static isNullorUndefined(x):boolean{
+        if (x == null) {
+            return true;
+        }
+    
+        if (x === null) {
+            return true;
+        }
+    
+        if (typeof x === 'undefined') {
+            return true;
+        }
+        return false;
+    }
+    
 }

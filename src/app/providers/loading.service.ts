@@ -15,7 +15,7 @@ export class LoadingService {
     return await this.loadingController.create({
       spinner:'lines',
       translucent: true,
-      duration: 15000,
+      duration: 60000,
       
     }).then(a => {
       a.present().then(() => {
