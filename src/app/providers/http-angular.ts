@@ -35,14 +35,12 @@ export class HttpAngularProvider {
             catchError((err,caught)=>{
                 console.log(err);
                 if(err.status==400){
-                    this.navController.navigateRoot('home');
+                    this.authService.logout();
                     return of([]);
                 } else if(err.status==504){
                     this.alertService.present('Error',null,'Conexion perdida',[]);
-                    return of([]);
                 } else if(err.status==500){
                     this.alertService.present('Error',null,'Problemas en el sistema',[]);
-                    return of([]);
                 }
                 return throwError(err);
             })
@@ -61,14 +59,12 @@ export class HttpAngularProvider {
             catchError((err,caught)=>{
                 console.log(err);
                 if(err.status==400){
-                    this.navController.navigateRoot('home');
+                    this.authService.logout();
                     return of([]);
                 } else if(err.status==504){
                     this.alertService.present('Error',null,'Conexion perdida',[]);
-                    return of([]);
                 } else if(err.status==500){
                     this.alertService.present('Error',null,'Problemas en el sistema',[]);
-                    return of([]);
                 }
                 return throwError(err);
             })

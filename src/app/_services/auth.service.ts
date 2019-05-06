@@ -70,14 +70,16 @@ export class AuthService {
 
     //inicio
     public isAuthenticatedPromise(){
-        return this.deposito.getItem(TOKEN_KEY).then(res=>{
-            if(res){
-                return true;
-            }
-                return false;
-            },error =>{
-                return false;
-            });
+        return this.platform.ready().then(()=>{
+            return this.deposito.getItem(TOKEN_KEY).then(res=>{
+                if(res){
+                    return true;
+                }
+                    return false;
+                },error =>{
+                    return false;
+                });
+        });
     }
 
     public getTokenStateObserver():Observable<string>{
@@ -93,6 +95,11 @@ export class AuthService {
         this.deposito.setItem('usuario',user).then(res=>{
 
         });
+        if(user.afiliado){
+            this.deposito.setItem('afiliado',user.afiliado).then(res=>{
+
+            });
+        }
     }
 
     public getUsuario(){
