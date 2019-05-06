@@ -6,11 +6,13 @@
     <ion-title>
       Constancias y Certificados
     </ion-title>
+    <!--
     <ion-buttons slot="end" *ngIf="afiliado">
       <ion-button (click)="refrescar()">
         <ion-icon name="refresh" ></ion-icon>
       </ion-button>
     </ion-buttons>
+    -->
   </ion-toolbar>
 </ion-header>
 <ion-content no-padding>
@@ -50,7 +52,7 @@
     <ion-item >
       <ion-label>
         <h3>Matricula: {{afiliado.id}}</h3>
-        <h2>{{afiliado.nombre}}</h2>
+        <h2 text-wrap>{{afiliado.nombre}}</h2>
         <p>Email: {{afiliado.email}}</p>
       </ion-label>
     </ion-item>

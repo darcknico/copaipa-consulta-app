@@ -5,6 +5,7 @@ import { LoadingService } from 'src/app/providers/loading.service';
 import { IonicSelectableComponent } from 'ionic-selectable';
 import { IonInfiniteScroll, IonContent } from '@ionic/angular';
 import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
+import { AuthService } from 'src/app/_services/auth.service';
 
 @Component({
   selector: 'app-listado-convenio',
@@ -54,11 +55,21 @@ export class ListadoConvenioComponent implements OnInit {
   total:number = 0;
   constructor(
     private convenioService:ConvenioService,
+    private authService:AuthService,
     private loadingService: LoadingService,
     private iab: InAppBrowser,
   ) { }
 
   ngOnInit() {
+    this.authService.isAuthenticatedPromise().then(response=>{
+      if(response){
+        this.iniciar();
+      }
+    });
+    
+  }
+
+  iniciar(){
     this.loadingService.present();
     let item = <Provincia>{};
     item.id = 0;

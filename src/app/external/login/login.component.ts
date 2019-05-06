@@ -47,7 +47,9 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.menuController.enable(false);
+    this.loadingService.present();
     this.authService.isAuthenticatedPromise().then(response=>{
+      this.loadingService.dismiss();
       if(response){
         this.menuController.enable(true);
         this.navController.navigateRoot('home');
