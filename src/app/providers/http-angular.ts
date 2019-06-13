@@ -70,15 +70,5 @@ export class HttpAngularProvider {
             })
         );
     }
-
-    private createSearchParams(params: any) {
-        let searchParams = new URLSearchParams();
-        for (let k in params) {
-            if (params.hasOwnProperty(k)) {
-                searchParams.set(k, params[k]);
-            }
-        }
-
-        return searchParams;
-    }
+    
 }
