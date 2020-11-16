@@ -12,7 +12,7 @@
     <!-- MATRICULA -->  
     <ion-item>
       <ion-label position="floating">Matricula</ion-label>
-      <ion-input pattern="[0-9]*" inputmode="numeric" type="text"  formControlName="matricula" #a (keyup.enter)="moveFocus(b)"></ion-input>
+      <ion-input type="text" formControlName="matricula" #a (keyup.enter)="moveFocus(b)"></ion-input>
     </ion-item>
     <ion-label *ngIf="matricula.touched" class="animated bounceInDown">
       <ion-text color="danger" *ngIf="matricula.hasError('required')">

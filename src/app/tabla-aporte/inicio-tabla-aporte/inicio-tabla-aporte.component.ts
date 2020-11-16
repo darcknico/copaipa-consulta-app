@@ -341,15 +341,4 @@ export class InicioTablaAporteComponent implements OnInit {
     });
   }
 
-  /*
-  ionViewDidEnter(){
-    this.subscription = this.platform.backButton.subscribe(()=>{
-      this.navCtrl.navigateForward('/home');
-    });
-  }
-
-  ionViewWillLeave(){
-    this.subscription.unsubscribe();
-  }
-  */
 }

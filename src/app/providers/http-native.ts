@@ -42,7 +42,9 @@ export class HttpNativeProvider {
                 } else if(err.status==500){
                     this.alertService.present('Error',null,'Problemas en el sistema',[]);
                 }
-                err.error = JSON.parse(err.error);
+                if(err.error){
+                    err.error = JSON.parse(err.error);
+                }
                 return throwError(err);
             })
         );
@@ -65,6 +67,7 @@ export class HttpNativeProvider {
 
         return from(responseData).pipe(
             catchError((err,caught)=>{
+                console.log(err);
                 if(err.status==400){
                     this.authService.logout();
                     return of([]);
@@ -73,7 +76,9 @@ export class HttpNativeProvider {
                 } else if(err.status==500){
                     this.alertService.present('Error',null,'Problemas en el sistema',[]);
                 }
-                err.error = JSON.parse(err.error);
+                if(err.error){
+                    err.error = JSON.parse(err.error);
+                }
                 return throwError(err);
             })
         );

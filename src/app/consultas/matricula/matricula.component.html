@@ -34,7 +34,7 @@
     </ion-item>
     <ion-item *ngIf="respuesta" lines="none">
       <ion-label color="danger" text-wrap>
-        {{respuesta.error}}
+        {{respuesta}}
       </ion-label>
     </ion-item>
     <ion-button 
@@ -48,6 +48,9 @@
   <ion-item-group *ngIf="afiliado" class="animated fadeIn">
     <ion-item-divider color="light">
       <ion-label class="text-fill" text-center>Ultima consulta</ion-label>
+      <ion-button slot="end" (click)="quitarAfiliado()" expand="block" fill="clear" class="ion-no-margin ion-no-padding" size="large">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
     </ion-item-divider>
     <ion-item >
       <ion-label>

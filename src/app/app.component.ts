@@ -57,7 +57,6 @@ export class AppComponent {
     private loadingService:LoadingService,
     ) {
     this.initializeApp();
-    //this.backButtonEvent();
   }
 
   initializeApp() {
@@ -84,77 +83,4 @@ export class AppComponent {
       this.loadingService.dismiss();
     });
   }
-
-  /*
-  backButtonEvent(){
-    this.platform.backButton.subscribe(async () => {
-        // close action sheet
-        try {
-            const element = await this.actionSheetCtrl.getTop();
-            if (element) {
-                element.dismiss();
-                return;
-            }
-        } catch (error) {
-        }
-
-        // close popover
-        try {
-            const element = await this.popoverCtrl.getTop();
-            if (element) {
-                element.dismiss();
-                return;
-            }
-        } catch (error) {
-        }
-
-        // close modal
-        try {
-            const element = await this.modalCtrl.getTop();
-            if (element) {
-                element.dismiss();
-                return;
-            }
-        } catch (error) {
-            console.log(error);
-
-        }
-
-        // close side menua
-        try {
-            const element = await this.menu.getOpen();
-            if (element !== null) {
-                this.menu.close();
-                return;
-
-            }
-
-        } catch (error) {
-
-        }
-
-        this.routerOutlets.forEach((outlet: IonRouterOutlet) => {
-            console.log('route '+this.router.url);
-            if (this.router.url === '/home' || this.router.url === '/' || this.router.url === '' ) {
-                if (new Date().getTime() - this.lastTimeBackPress < this.timePeriodToExit) {
-                  
-                    navigator['app'].exitApp(); 
-
-                } else {
-                    this.toast.show(
-                        `Presione de nuevo para salir de la App.`,
-                        '2000',
-                        'bottom')
-                        .subscribe(toast => {
-                            // console.log(JSON.stringify(toast));
-                        });
-                    this.lastTimeBackPress = new Date().getTime();
-                }
-            } else if (outlet && outlet.canGoBack()) {
-                outlet.pop();
-            }
-        });
-    });
-  }
-  */
 }

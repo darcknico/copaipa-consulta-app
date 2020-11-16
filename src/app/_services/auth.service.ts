@@ -14,6 +14,7 @@ export class AuthService {
     authState$: BehaviorSubject<boolean> = new BehaviorSubject(null);
     token$: BehaviorSubject<string> = new BehaviorSubject(null);
     user$: BehaviorSubject<Usuario> = new BehaviorSubject(null);
+    usuario:Usuario;
     public static TOKEN_KEY = "X-Auth-Token";
     constructor(
         private navController:NavController,
@@ -49,14 +50,18 @@ export class AuthService {
     }
 
     public logout() {
-        this.deposito.remove(TOKEN_KEY).then( _ => {
+        Promise.all([
+            this.deposito.remove('usuario'),
+            this.deposito.remove('afiliado'),
+        ]).then( () =>{
+            this.user$.next(null);
+        });
+        this.deposito.remove(TOKEN_KEY).then( () => {
             this.authState$.next(false);
             this.token$.next(null);
             this.navController.navigateRoot('external/login');
         });
-        this.deposito.remove('usuario').then( _ =>{
-            this.user$.next(null);
-        });
+        
     }
   
     public getAuthStateObserver(): Observable<boolean> {
@@ -92,14 +97,17 @@ export class AuthService {
 
     public setUsuario(user:Usuario){
         this.user$.next(user);
+        this.usuario = user;
         this.deposito.setItem('usuario',user).then(res=>{
 
         });
+        /*
         if(user.afiliado){
             this.deposito.setItem('afiliado',user.afiliado).then(res=>{
 
             });
         }
+        */
     }
 
     public getUsuario(){

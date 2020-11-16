@@ -34,6 +34,6 @@ export interface Colegio{
 export interface Usuario{
     email:string;
     fecha_alta:string;
-    id_matricula:string;
+    matricula:string;
     afiliado:Afiliado;
 }

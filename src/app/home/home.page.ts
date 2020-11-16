@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavController, Platform } from '@ionic/angular';
 import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
 import { NovedadService } from '../providers/novedad.service';
@@ -10,7 +10,7 @@ import { DepositoService } from '../providers/deposito.service';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit,OnDestroy {
 
   consultando = false;
   subscription:any; 
@@ -62,6 +62,13 @@ export class HomePage implements OnInit {
       );
       
     });
+    this.subscription = this.platform.backButton.subscribe(()=>{
+      navigator['app'].exitApp(); 
+    });
+  }
+
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
   }
 
   link_entry(link){
@@ -92,16 +99,6 @@ export class HomePage implements OnInit {
 
   ver_oferta(){
     const browser = this.iab.create('http://www.copaipa.org.ar/ofertas-laborales/','_self',this.options);
-  }
-
-  ionViewDidEnter(){
-    this.subscription = this.platform.backButton.subscribe(()=>{
-      navigator['app'].exitApp(); 
-    });
-  }
-
-  ionViewWillLeave(){
-    this.subscription.unsubscribe();
   }
 
   actualizar(event?){

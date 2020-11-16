@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  base_path: 'http://copaipa-consulta-rest.proyectosinformaticos.com.ar/api/',
+  base_path: 'http://app.copaipa.org.ar/api/',
   //base_path: 'http://localhost:8000/api/',
 };
 
