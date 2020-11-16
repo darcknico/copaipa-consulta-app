@@ -61,7 +61,7 @@
     "core-js": "^2.6.3",
     "ionic-selectable": "^4.2.0",
     "moment": "^2.24.0",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.13.1",
     "rxjs": "~6.3.3",
     "zone.js": "^0.8.29"
   },
