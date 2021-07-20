@@ -6,6 +6,7 @@ import { UsuarioService } from 'src/app/_services/usuario.service';
 import { ValidateEmailUnique } from 'src/app/_validators/async-email-unique.validator';
 import { LoadingService } from 'src/app/providers/loading.service';
 import { AlertService } from 'src/app/providers/alert.service';
+import { isObject } from 'util';
 
 @Component({
   selector: 'app-register',
@@ -43,7 +44,7 @@ export class RegisterComponent implements OnInit {
       email: new FormControl(
         null,
         [Validators.required, Validators.minLength(4),Validators.email],
-        [ValidateEmailUnique.createValidator(this.usuarioService)]
+        //[ValidateEmailUnique.createValidator(this.usuarioService)]
       ),
       pass:['',[Validators.required,PasswordValidator.strong,Validators.minLength(6)]],
       pass2:['',[Validators.required,PasswordValidator.strong,Validators.minLength(6)]],
@@ -94,7 +95,6 @@ export class RegisterComponent implements OnInit {
       }
     }
   }
-
   continuar(){
     if(!this.formulario.valid){
       return;
@@ -108,14 +108,8 @@ export class RegisterComponent implements OnInit {
     this.usuarioService.register(matricula, email,pass,pass2).subscribe(response=>{
       this.loadingService.dismiss();
       this.menu.enable(true);
-    },(error)=>{
+    },(err)=>{
       this.loadingService.dismiss();
-      this.alertService.present(
-        'Error',
-        null,
-        error.error.error,
-        ['OK']
-      )
     });
   }
 

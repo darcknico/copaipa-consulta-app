@@ -9,8 +9,12 @@ export class ValidateEmailUnique {
   static createValidator(usuarioService: UsuarioService) {
     return (control: FormControl) => {
       return usuarioService.coincidencia(control.value).pipe(map((res:any) => {
-        return res.coincidencia>0 ? {coincidencia:true} : null;
-      }));
+        if(res){
+          return res.coincidencia>0 ? {coincidencia:true} : null;
+        } else {
+          return null;
+        }
+      },()=>{return null}));
     }
   }
 

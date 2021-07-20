@@ -1,28 +1,25 @@
 import { Platform } from '@ionic/angular';
 import { Injectable } from '@angular/core';
-import { HttpNativeProvider } from '../providers/http-native';
-import { HttpAngularProvider } from '../providers/http-angular';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { map } from 'rxjs/operators';
 import { Auxiliar } from '../_helpers/auxiliar';
+import { HttpInterceptorProvider } from '../providers/http-interceptor';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
-    public http: HttpNativeProvider | HttpAngularProvider;
     private base_path = environment.base_path ;
 
     constructor(
         private authService:AuthService,
         private platform: Platform,
-        private angularHttp: HttpAngularProvider, 
-        private nativeHttp: HttpNativeProvider,
+        private http: HttpInterceptorProvider, 
     ) { 
-        this.http = this.platform.is('cordova') ? this.nativeHttp : this.angularHttp;
+        
     }
 
     public coincidencia(email){
@@ -54,13 +51,15 @@ export class UsuarioService {
             email:email,
             password:pass,
             c_password:pass2,
-        }).pipe(map(response=>{
-            let token = response['access_token'];
-            let type = response['token_type'];
-            this.authService.login(type,token).then(res=>{
-                this.me().subscribe();
-            });
-        }));
+        }).pipe(
+            map(response=>{
+                let token = response['access_token'];
+                let type = response['token_type'];
+                this.authService.login(type,token).then(res=>{
+                    this.me().subscribe();
+                });
+            })
+        );
     }
 
     public logout(){

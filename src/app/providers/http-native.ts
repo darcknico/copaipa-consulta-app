@@ -1,60 +1,49 @@
 import {Injectable} from '@angular/core';
 import { HTTP } from '@ionic-native/http/ngx';
-import { from, Observable, of, throwError } from 'rxjs';
-import { AuthService } from '../_services/auth.service';
+import { from, Observable, throwError } from 'rxjs';
 import { Auxiliar } from '../_helpers/auxiliar';
 import { catchError } from 'rxjs/internal/operators/catchError';
-import { NavController } from '@ionic/angular';
-import { AlertService } from './alert.service';
-
 @Injectable()
 export class HttpNativeProvider {
 
-    token:string;
-
     constructor(
         public http: HTTP,
-        private authService:AuthService,
-        private navController:NavController,
-        private alertService:AlertService,
         ) {
         this.http.setDataSerializer('json');
-        this.authService.getTokenStateObserver().subscribe(response=>{
-            this.token = response;
-        });
+        this.http.setHeader('*', 'Accept', 'application/json');
+        this.http.setHeader('*', 'Content-Type', 'application/json');
     }
 
-    public get(url: string, params?: any, options: any = {}):Observable<any> {
-        if(!Auxiliar.isNullorUndefined(this.token)){
-            options['Authorization'] = this.token;
+    public get(url: string, params?: any, options: any = {}, token:string = null):Observable<any> {
+        this.http.setDataSerializer('json');
+        if(!Auxiliar.isNullorUndefined(token)){
+            options['Authorization'] = token;
         }
         let responseData = this.http.get(url, params, options)
             .then(resp => options.responseType == 'text' ? resp.data : JSON.parse(resp.data));
 
         return from(responseData).pipe(
-            catchError((err,caught)=>{
-                console.log(err);
-                if(err.status==400){
-                    this.authService.logout();
-                    return of([]);
-                } else if(err.status==504){
-                    this.alertService.present('Error',null,'Conexion perdida',[]);
-                } else if(err.status==500){
-                    this.alertService.present('Error',null,'Problemas en el sistema',[]);
-                }
-                if(err.error){
-                    err.error = JSON.parse(err.error);
-                }
-                return throwError(err);
-            })
+            catchError(this.parseErrar)
         );
     }
 
-    public post(url:string, params: any, options: any = {}):Observable<any> {
+    public delete(url: string, params?: any, options: any = {}, token:string = null):Observable<any> {
         this.http.setDataSerializer('json');
-        options['Content-Type'] = 'application/json';
-        if(!Auxiliar.isNullorUndefined(this.token)){
-            options['Authorization'] = this.token;
+        if(!Auxiliar.isNullorUndefined(token)){
+            options['Authorization'] = token;
+        }
+        let responseData = this.http.delete(url, params, options)
+            .then(resp => options.responseType == 'text' ? resp.data : JSON.parse(resp.data));
+
+        return from(responseData).pipe(
+            catchError(this.parseErrar)
+        );
+    }
+
+    public post(url:string, params: any, options: any = {}, token:string = null):Observable<any> {
+        this.http.setDataSerializer('json');
+        if(!Auxiliar.isNullorUndefined(token)){
+            options['Authorization'] = token;
         }
         let responseData = this.http.post(url, params, options)
             .then(resp => {
@@ -66,21 +55,48 @@ export class HttpNativeProvider {
             });
 
         return from(responseData).pipe(
-            catchError((err,caught)=>{
-                console.log(err);
-                if(err.status==400){
-                    this.authService.logout();
-                    return of([]);
-                } else if(err.status==504){
-                    this.alertService.present('Error',null,'Conexion perdida',[]);
-                } else if(err.status==500){
-                    this.alertService.present('Error',null,'Problemas en el sistema',[]);
-                }
-                if(err.error){
-                    err.error = JSON.parse(err.error);
-                }
-                return throwError(err);
-            })
+            catchError(this.parseErrar)
         );
+    }
+
+    public put(url:string, params: any, options: any = {}, token:string = null):Observable<any> {
+        //options['Content-Type'] = 'application/json';
+        this.http.setDataSerializer('json');
+        if(!Auxiliar.isNullorUndefined(token)){
+            options['Authorization'] = token;
+        }
+        let responseData = this.http.put(url, params, options)
+            .then(resp => {
+                if(options.responseType == 'text' || options.responseType == 'blob'){
+                    return resp.data;
+                } else {
+                    return JSON.parse(resp.data);
+                }
+            });
+
+        return from(responseData).pipe(
+            catchError(this.parseErrar)
+        );
+    }
+
+    private parseErrar(err,caught){
+        if(err && err.error){
+            console.log(err.error);
+            if(typeof err.error === 'string' || err.error instanceof String){
+                err.error = JSON.parse(err.error);
+            }
+        }
+        return throwError(err);
+    }
+
+    isJsonString(text) {
+        if (/^[\],:{}\s]*$/.test(text.replace(/\\["\\\/bfnrtu]/g, '@').
+        replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
+        replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
+            return true;
+        }else{
+            return false;
+        }
+
     }
 }

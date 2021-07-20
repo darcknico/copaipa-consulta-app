@@ -38,6 +38,7 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { UsuarioService } from './_services/usuario.service';
 import { AlertService } from './providers/alert.service';
 import { ConvenioService } from './_services/convenio.service';
+import { HttpInterceptorProvider } from './providers/http-interceptor';
 registerLocaleData(es);
 
 export function createTranslateLoader(http: HttpClient) {
@@ -76,6 +77,7 @@ export function createTranslateLoader(http: HttpClient) {
     HTTP,
     HttpAngularProvider,
     HttpNativeProvider,
+    HttpInterceptorProvider,
     TablaAporteService,
     NovedadService,
     AfiliadoService,

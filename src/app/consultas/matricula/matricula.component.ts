@@ -40,16 +40,11 @@ export class MatriculaComponent implements OnInit, AfterViewInit {
       matricula = this.authService.usuario.matricula;
     }
     this.formulario = this.formBuilder.group({
-      matricula: [matricula, Validators.required],
+      matricula: [matricula, [Validators.required]],
     });
   }
 
   ngOnInit() {
-    if(this.matriculaInput){
-      this.matriculaInput.setFocus();
-    }
-    
-
     this.deposito.getItem('afiliado').then(data=>{
       if(data){
         this.afiliado = data;

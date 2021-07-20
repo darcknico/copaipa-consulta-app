@@ -59,8 +59,8 @@
     <!-- PASS 2 -->  
     <ion-item>
       <ion-label position="floating">Repita su contraseña</ion-label>
-      <ion-input [type]="passwordType2" formControlName="pass2" #d (keyup.enter)="continuar()"></ion-input>
-      <ion-icon [name]="passwordIcon2" slot="end" (click)="mostrarContrasenya(2)"></ion-icon>
+      <ion-input [type]="passwordType" formControlName="pass2" #d (keyup.enter)="continuar()"></ion-input>
+      <ion-icon [name]="passwordIcon" slot="end" (click)="mostrarContrasenya(1)"></ion-icon>
     </ion-item>
     <ion-label *ngIf="pass2.touched && pass.valid" class="animated bounceInDown">
       <ion-text color="danger" *ngIf="pass2.hasError('required')">

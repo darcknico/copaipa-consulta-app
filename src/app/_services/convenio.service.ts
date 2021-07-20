@@ -1,10 +1,9 @@
 import { Platform } from '@ionic/angular';
 import { Injectable } from '@angular/core';
-import { HttpNativeProvider } from '../providers/http-native';
-import { HttpAngularProvider } from '../providers/http-angular';
 import { environment } from 'src/environments/environment';
 import { Auxiliar } from '../_helpers/auxiliar';
 import { Convenio } from '../_models/convenio';
+import { HttpInterceptorProvider } from '../providers/http-interceptor';
 
 export interface FiltroConvenio{
     length:number;
@@ -23,15 +22,12 @@ export interface ConvenioAjax{
   providedIn: 'root'
 })
 export class ConvenioService {
-    public http: HttpNativeProvider | HttpAngularProvider;
     private base_path = environment.base_path + 'convenios';
 
     constructor(
         private platform: Platform,
-        private angularHttp: HttpAngularProvider, 
-        private nativeHttp: HttpNativeProvider,
+        private http: HttpInterceptorProvider, 
     ) { 
-        this.http = this.platform.is('cordova') ? this.nativeHttp : this.angularHttp;
     }
 
     public getAll(){

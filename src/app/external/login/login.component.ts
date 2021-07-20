@@ -69,25 +69,10 @@ export class LoginComponent implements OnInit {
       this.menuController.enable(true);
     },(error)=>{
       this.loadingService.dismiss();
-      this.alertService.present(
-        'Error',
-        null,
-        error.error.error,
-        ['OK']
-      )
     });
 		
 	}
 	
-	async showError(error) {
-		console.log(error);
-		let alert = this.alertCtrl.create({
-			// message: error.json().message,
-			message: error,
-			buttons: ['OK']
-		});
-	}
-
 	hideShowPassword() {
 		this.passwordType = this.passwordType === 'text' ? 'password' : 'text';
 		this.passwordIcon = this.passwordIcon === 'eye-off' ? 'eye' : 'eye-off';

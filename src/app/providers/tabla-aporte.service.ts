@@ -1,22 +1,19 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Platform } from '@ionic/angular';
-import { HttpAngularProvider } from './http-angular';
-import { HttpNativeProvider } from './http-native';
 import { DetalleTablaAporte } from '../_models/tabla.aporte';
+import { HttpInterceptorProvider } from './http-interceptor';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TablaAporteService {
-  public http: HttpNativeProvider | HttpAngularProvider;
 
   private base_path = environment.base_path + 'tabla-aportes';
   constructor(
     private platform: Platform, 
-    private angularHttp: HttpAngularProvider, 
-    private nativeHttp: HttpNativeProvider) {
-      this.http = this.platform.is('cordova') ? this.nativeHttp : this.angularHttp;
+    private http: HttpInterceptorProvider, 
+    ) {
   }
 
   getAll(){
